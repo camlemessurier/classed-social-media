@@ -1,22 +1,9 @@
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
-const Post = require("./models/Post");
 const typeDefs = require("./graphql/typeDefs");
+const resolvers = require("./graphql/resolvers");
+const dotenv = require("dotenv");
 dotenv.config();
-
-const resolvers = {
-	Query: {
-		async getPosts() {
-			try {
-				const posts = await Post.find();
-				return posts;
-			} catch (error) {
-				console.log(error);
-				throw new Error(error);
-			}
-		},
-	},
-};
 
 const server = new ApolloServer({
 	typeDefs,
@@ -29,7 +16,7 @@ mongoose
 		useUnifiedTopology: true,
 	})
 	.then(() => {
-		console.log("Database connected");
 		return server.listen({ port: 5000 });
 	})
-	.then((res) => console.log(`Server running at ${res.url}`));
+	.then((res) => console.log(`Server running at ${res.url}`))
+	.catch((err) => console.log(err));

@@ -1,4 +1,4 @@
-const { gql } = require("graphql-tag");
+const { gql } = require("apollo-server");
 
 module.exports = gql`
 	type Query {
@@ -10,5 +10,25 @@ module.exports = gql`
 		body: String!
 		createdAt: String!
 		username: String!
+	}
+
+	type User {
+		id: ID!
+		email: String!
+		token: String!
+		username: String!
+		createdAt: String!
+	}
+
+	type Mutation {
+		register(registerInput: RegisterInput): User
+		login(username: String!, password: String!): User!
+	}
+
+	input RegisterInput {
+		username: String!
+		password: String!
+		confirmPassword: String!
+		email: String!
 	}
 `;
